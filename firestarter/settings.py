@@ -112,10 +112,10 @@ PROJECT_ADDR = 'http://localhost:8000'
 PROJECT_SLOGAN = 'Support our awesome project.'
 
 # Goal amount (int) that you are trying to raise.
-GOAL = 50000
+GOAL = 25000
 
 # Date (datetime object) when the campaign will end
-DATE = datetime.datetime.now() + datetime.timedelta(days=10)
+DATE = datetime.datetime.now() + datetime.timedelta(days=30)
 
 # Disable new contributions when time runs out?
 STOP = False
@@ -127,37 +127,15 @@ NOTIFY_SENDER = 'noreply@example.com'
 # List of payment types that you will accept.
 # Possible values (copy these entirely):
 #   ('CC', 'Credit Card (VISA/MasterCard/AMEX)', 'icon-credit-card')
-#   ('BC', 'Bitcoin', 'icon-btc')
 #   ('PP', 'PayPal Account', 'icon-dollar')
 PAY_TYPES = (
     ('CC', 'Credit Card (VISA/MasterCard/AMEX)', 'icon-credit-card'),
-    ('BC', 'Bitcoin', 'icon-btc'),
-    ('PP', 'PayPal Account', 'icon-dollar')
 )
 
 SUCCESS_DISCLAIMER = ('If you claimed a reward in connection with your contribution, '
     'shipping will begin by next month. Stay tuned to one of our social '
     'media accounts to get updates as to what rewards are shipping when.')
 
-
-# Stripe API publishable key (if using Stripe for CC payments)
+# Stripe API key (if using Stripe for CC payments)
 STRIPE_PUBLIC_KEY = ''
-
-# Stripe API private key (if using Stripe for CC payments)
 STRIPE_PRIVATE_KEY = ''
-
-# PayPal REST API mode: 'sandbox' for testing or 'live' for real charges
-PAYPAL_MODE = 'sandbox'
-# PayPal REST API ID and secret.
-PAYPAL_CLIENT_ID = ''
-PAYPAL_CLIENT_SECRET = ''
-
-# The Bitcoin address for people to donate to (if Bitcoin is accepted)
-BTC_ADDR = ''
-
-# API key for pulling currency exchange rates.
-# Get one here: https://currency-api.appspot.com/
-CURRENCY_API_KEY = ''
-
-# Optional disclaimer to show above the list of rewards.
-REWARDS_DISCLAIMER = 'All contributions of $2 or more get the donor\'s name (or appropriate pseudonym) on a special Donors page of the website.'

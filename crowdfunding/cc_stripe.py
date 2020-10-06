@@ -8,7 +8,6 @@ from django.shortcuts import render
 from django.template import Context
 from django.template.loader import get_template
 
-from .currency import eur_to_dollars, gbp_to_dollars
 from .models import Order, Reward
 
 
@@ -25,12 +24,12 @@ def approve_payment(request):
 		else:
 			fd['reward'] = False
 			fd['reward_name'] = ''
-		if fd['ctype'] == 'eur':
-			fd['amount_eur'] = fd['amount']
-			fd['amount'] = eur_to_dollars(fd['amount'])
-		elif fd['ctype'] == 'gbp':
-			fd['amount_gbp'] = fd['amount']
-			fd['amount'] = gbp_to_dollars(fd['amount'])
+		# if fd['ctype'] == 'eur':
+		# 	fd['amount_eur'] = fd['amount']
+		# 	fd['amount'] = eur_to_dollars(fd['amount'])
+		# elif fd['ctype'] == 'gbp':
+		# 	fd['amount_gbp'] = fd['amount']
+		# 	fd['amount'] = gbp_to_dollars(fd['amount'])
 		request.session['fd'] = fd
 		return render(request, 'payment/confirm.html', locals())
 	elif settings.STOP and (settings.DATE - datetime.datetime.now()).days < 0:
@@ -50,7 +49,7 @@ def complete_payment(request):
 		reward_desc = (Reward.objects.get(name=request.session['fd']['reward_name']).desc if request.session['fd']['reward'] else 'None')
 
 		# amount in cents
-		amount = int(request.session['fd']['amount']) * 100
+		amount = int(float(request.session['fd']['amount'])) * 100
 		token = request.session['fd']['stripeToken']
 		desc = request.session['fd']['email']
 
@@ -79,7 +78,7 @@ def complete_payment(request):
 			charge = stripe.Charge.create(
 				amount=amount,
 				currency="usd",
-				card=token,
+				source=token,
 				description=desc
 			)
 			try:
@@ -95,7 +94,7 @@ def complete_payment(request):
 				fail_silently=False)
 			request.session['fd'] = {}
 			return render(request, 'payment/success.html', locals())
-		except stripe.CardError, e:
+		except stripe.CardError as e:
 			msg = "Your card has been declined. Please choose a new card or a new payment method and restart your order."
 			return render(request, 'error.html', locals())
 		except:
