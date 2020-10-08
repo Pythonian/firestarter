@@ -13,6 +13,14 @@ class Reward(models.Model):
 		return self.name
 
 
+class Pledge(models.Model):
+	reward = models.ForeignKey(Reward, on_delete=models.CASCADE)
+	created = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return reward.name
+		
+
 class Order(models.Model):
 	PAY_TYPES = (
 		('CC', 'Credit Card'),
